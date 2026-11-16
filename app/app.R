@@ -118,7 +118,12 @@ server <- function(input, output, session) {
     d <- dataset(); gmeans <- tapply(d$value, d$group, mean)
     tags$p(tags$b("Reading the sample: "), sprintf("%d observations across %d groups. Sample means range from %.2f to %.2f.", nrow(d), nlevels(d$group), min(gmeans), max(gmeans)))
   })
-  output$data_preview <- renderTable({ do.call(rbind, lapply(split(dataset(), dataset()$group), head, 5)) }, striped = TRUE, digits = 3)
+  output$data_preview <- renderTable({
+    d <- dataset()
+    wide <- unstack(d, value ~ group)
+    names(wide) <- levels(d$group)
+    data.frame(Observation = seq_len(nrow(wide)), wide, check.names = FALSE)
+  }, striped = TRUE, digits = 3)
 
   ss_values <- reactive({
     d <- dataset(); gm <- mean(d$value); group_means <- ave(d$value, d$group, FUN = mean)
