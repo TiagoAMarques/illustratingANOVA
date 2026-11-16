@@ -1,5 +1,7 @@
 name: Deploy Shinylive app to GitHub Pages
 
+# Publishes the prebuilt site directory at the repository Pages root.
+
 on:
   push:
     branches: [main]
