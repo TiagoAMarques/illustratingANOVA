@@ -2,6 +2,8 @@
 
 An interactive teaching app for generating grouped data, understanding the one-way ANOVA decomposition of sums of squares, and comparing ANOVA with the Kruskal–Wallis rank test.
 
+**[Launch the live app](https://tiagoamarques.github.io/illustratingANOVA/)**
+
 The app runs entirely in the browser through [Shinylive](https://posit-dev.github.io/r-shinylive/) and webR. It does not require a Shiny server and can therefore be hosted on GitHub Pages.
 
 ## What students can explore
