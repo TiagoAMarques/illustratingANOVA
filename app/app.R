@@ -41,18 +41,18 @@ ui <- fluidPage(
       div(class = "section-heading", h2("Decompose variability"), p("ANOVA compares variation among group means with variation inside the groups.")),
       fluidRow(
         column(4,
-          div(class = "metric-card", span("F statistic"), strong(textOutput("f_value", inline = TRUE))),
-          div(class = "metric-card", span("p-value"), strong(textOutput("anova_p", inline = TRUE))),
-          div(class = "metric-card", span("η² = SSbetween / SStotal"), strong(textOutput("eta_value", inline = TRUE))),
+          div(class = "metric-card", div(class = "metric-copy", span("F statistic"), small("Signal-to-noise ratio: between-group variability divided by within-group variability.")), strong(textOutput("f_value", inline = TRUE))),
+          div(class = "metric-card", div(class = "metric-copy", span("ANOVA p-value"), small("How surprising this F would be if all population means were equal; small values challenge that hypothesis.")), strong(textOutput("anova_p", inline = TRUE))),
+          div(class = "metric-card", div(class = "metric-copy", span("η² = SSbetween / SStotal"), small("Effect size: proportion of total sample variability associated with group membership, from 0 to 1.")), strong(textOutput("eta_value", inline = TRUE))),
           div(class = "explain-card",
             h3("The identity"),
             tags$div(class = "formula", "yᵢⱼ − ȳ = (ȳⱼ − ȳ) + (yᵢⱼ − ȳⱼ)"),
             p("Each observation’s deviation from the grand mean is split into a between-group component and a within-group residual."))
         ),
-        column(8, div(class = "plot-card", plotOutput("ss_segments", height = "430px")))
+        column(8, div(class = "plot-card", plotOutput("ss_segments", height = "430px"), p(class = "plot-note", strong("How to read this: "), "Teal segments show each group mean relative to the grand mean; coral segments show each observation relative to its group mean.")))
       ),
       fluidRow(
-        column(7, div(class = "plot-card", plotOutput("ss_bars", height = "340px"))),
+        column(7, div(class = "plot-card", plotOutput("ss_bars", height = "340px"), p(class = "plot-note", strong("The accounting identity: "), "total squared variation equals between-group SS plus within-group SS."))),
         column(5, div(class = "table-card", h3("ANOVA table"), tableOutput("anova_table")))
       ),
       div(class = "insight-card", uiOutput("anova_story"))
@@ -62,11 +62,11 @@ ui <- fluidPage(
       div(class = "section-heading", h2("Replace values with ranks"), p("Kruskal–Wallis tests whether groups tend to occupy different parts of the pooled rank distribution.")),
       fluidRow(
         column(4,
-          div(class = "metric-card", span("Kruskal–Wallis H"), strong(textOutput("kw_value", inline = TRUE))),
-          div(class = "metric-card", span("p-value"), strong(textOutput("kw_p", inline = TRUE))),
+          div(class = "metric-card", div(class = "metric-copy", span("Kruskal–Wallis H"), small("Measures separation among group mean ranks; larger values indicate stronger distributional differences.")), strong(textOutput("kw_value", inline = TRUE))),
+          div(class = "metric-card", div(class = "metric-copy", span("Kruskal–Wallis p-value"), small("How surprising this rank separation would be if all groups had the same distribution.")), strong(textOutput("kw_p", inline = TRUE))),
           div(class = "explain-card", h3("What changes?"), p("The original measurements are pooled and ranked. This reduces sensitivity to extreme values, but the test is about rank distributions—not automatically about means."))
         ),
-        column(8, div(class = "plot-card", plotOutput("rank_plot", height = "430px")))
+        column(8, div(class = "plot-card", plotOutput("rank_plot", height = "430px"), p(class = "plot-note", strong("How to read this: "), "Measurements are pooled and ranked. Groups above or below the dashed overall mean rank contribute to H.")))
       ),
       fluidRow(
         column(6, div(class = "table-card", h3("Mean ranks by group"), tableOutput("rank_table"))),
